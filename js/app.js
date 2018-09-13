@@ -15,6 +15,7 @@
 		"are you bored yet",
 		"isnt this fun",
 	]
+	let phraseLetters = [];
 	const game = new Game(0, phraseArray);
 
 
@@ -30,20 +31,22 @@
 	function markButton(key) {
 		key.disabled = true;
 		key.className += ' chosen';
-		console.log(key);
-		//handleInteraction();
+		game.handleInteraction(key);
 	}
 
 // Add an event listener to the "Start Game" button which calls the resetDisplay() function, creates a new Game object, and starts the game.
-	$("#btn__reset").on("click",  function() {
+	let startGame = document.querySelector("#btn__reset");
+	startGame.addEventListener('click',()=>{
 		game.startGame();
-		resetDisplay(this);
+		resetDisplay(startGame);
 	});
 
 // Add event listeners to each of the keyboard buttons, so that clicking a button calls the markButton() function.
-	$(".keyrow button").on("click", function() {
-		markButton(this);
-		//checkLetter(this.text);
+	let keyboardButton = document.querySelector('#qwerty');
+	keyboardButton.addEventListener('click',(e)=>{
+		if (e.target.className === 'key') {
+			markButton(e.target);
+		}
 	});
 
 

@@ -8,22 +8,32 @@
 class Game {
 	constructor(missed, phrases) {
 		this.missed = missed;
-		this.phrases = phrases;
+		this.phrases = new Phrase(phrases[Math.round(Math.random() * phrases.length)]);
 	}
 
 	// getRandomPhrase(): this method randomly retrieves one of the phrases stored in the phrases array.
 	getRandomPhrase() { 
-		let num = Math.round(Math.random() * this.phrases.length);
-		let randomPhrase = new Phrase(this.phrases[num]);
-		return randomPhrase;
+		return this.phrases;
 	}
+	// gets value from getRandomPhrase() from startGame()
+    get randomPhrase(){
+        return this._randomPhrase;
+    }
+    // sets value from randomPhrase()
+    set randomPhrase(randomPhrase){
+        this._randomPhrase = randomPhrase;
+    }
 
 	// handleInteraction(): this method checks to see if the button clicked by the player matches a letter in the phrase.
-	handleInteraction() {
-			
+	handleInteraction(letter) {
+		let checkLetters = this.phrases.checkLetter(letter);
 		// If button clicked does not match a letter in the phrase, then call the removeLife() method
 		// If the selected letter matches, call the showMatchedLetter() method on the phrase and then call the checkForWin() method
-
+		if (checkLetters === true) {
+			this.phrases.showMatchedLetter(letter);
+		} else {
+			this.removeLife();
+		}
 	}
 
 	// removeLife(): this method removes a life, removes a heart from the board, and, if the player is out of lives, ends the game.
@@ -41,8 +51,9 @@ class Game {
 	}
 	// startGame(): calls the getRandomPhrase() method, and adds that phrase to the board by calling the Phrase class' addPhraseToDisplay() method.
 	startGame() {
-		this.getRandomPhrase();
-		randomPhrase.addPhraseToDisplay();
+		const currentPhrase = this.getRandomPhrase();
+		this.randomPhrase = currentPhrase;
+		currentPhrase.addPhraseToDisplay();
 
 		document.addEventListener("mousedown", function (e) {
             e.preventDefault();
