@@ -20,6 +20,7 @@ class Phrase {
 					displayPhraseLi.className = `hide space`;
 				} else {
 					displayPhraseLi.className = `hide letter ${currentPhrase[i]}`;
+					displayPhraseLi.textContent = currentPhrase[i];
 				}
 				displayPhraseLi.text = currentPhrase[i];
 				document.querySelector('#phrase ul').append(displayPhraseLi);
