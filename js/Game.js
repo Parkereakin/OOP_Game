@@ -8,28 +8,36 @@
 class Game {
 	constructor(missed, phrases) {
 		this.missed = missed;
-		this.phrases = new Phrase(phrases[Math.round(Math.random() * phrases.length)]);
+		this.phrases = phrases.map((phrase) => new Phrase(phrase));
 	}
 
 	// getRandomPhrase(): this method randomly retrieves one of the phrases stored in the phrases array.
 	getRandomPhrase() { 
-		return this.phrases;
+		let phrase = this.phrases
+		var randomPhrase = phrase[Math.floor(Math.random() * phrase.length)];
+		return randomPhrase;
 	}
 
 	// handleInteraction(): this method checks to see if the button clicked by the player matches a letter in the phrase.
 	handleInteraction(letter) {
-		let checkLetters = this.phrases.checkLetter(letter);
+		let checkLetters = this.getRandomPhrase().checkLetter(letter);
 		// If button clicked does not match a letter in the phrase, then call the removeLife() method
 		// If the selected letter matches, call the showMatchedLetter() method on the phrase and then call the checkForWin() method
 		if (checkLetters === true) {
-			this.phrases.showMatchedLetter(letter);
+			this.getRandomPhrase().showMatchedLetter(letter);
+			letter.setAttribute('class', 'key chosen');
 			this.checkForWin();
-			return true;
 		} else {
 			this.removeLife();
+			letter.setAttribute('class', 'key wrong');
 			this.checkForWin();
-			return false;
 		}
+
+	}
+
+	// Handle keyboard functionality
+	handleKeydown(letter) {
+		markButton(document.querySelector('#' + letter));
 	}
 
 	// removeLife(): this method removes a life, removes a heart from the board, and, if the player is out of lives, ends the game.
@@ -50,9 +58,11 @@ class Game {
 
 		}
 	}
+
 	// gameOver(): this method displays a message if the player wins or a different message if they lose.
 	gameOver(result) {
-		startGame.parentNode.style.display = 'block';
+		backgroundGradient();
+		startGame.parentNode.style.display = 'flex';
 		const results = document.querySelector('#game-over-message');
 		startGame.textContent = "New Game";
 		if (result === 'You Lose') {
@@ -76,17 +86,17 @@ class Game {
 	//resets the game (resets lives, clears phrase)
 	gameReset() {
 		this.missed = 0;
-		lives[this.missed].setAttribute("src", "images/liveHeart.png");
+		shownLetters = 0;
+		phraseLetters = [];
+		for (let i=0; i < lives.length; i++) {
+		  lives[i].setAttribute("src", "images/liveHeart.png");
+		}
 		let choseKeys = document.querySelectorAll('.key[disabled]');
 		for (let i = 0; i < choseKeys.length; i++) {
 			choseKeys[i].disabled = false;
 			choseKeys[i].setAttribute('class', 'key');
-			console.log(i);
-			console.log(choseKeys[i]);
 		}
-
-
-		let letters = document.querySelectorAll('li.letter');
+		let letters = document.querySelectorAll('#phrase li');
 		for (let i = 0; i < letters.length; i++) {
 			letters[i].remove();
 		}

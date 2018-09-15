@@ -44,7 +44,9 @@ class Phrase {
 				letterBoxes[i].classList.remove('hide');
 				letterBoxes[i].classList.add('show');
 				letterBoxes[i].textContent = currentLetter;
-				shownLetters += 1;
+				if (shownLetters <= letterBoxes.length) {
+					shownLetters += 1;
+				}
 			}
 		}
 	}
