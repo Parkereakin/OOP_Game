@@ -39,11 +39,12 @@ class Phrase {
 	showMatchedLetter(letter) {
 		let currentLetter = letter.textContent;
 		let letterBoxes = document.querySelectorAll('.letter');
-		for (let i = 0; letterBoxes.length; i++) {
+		for (let i = 0; i < letterBoxes.length; i++) {
 			if (letterBoxes[i].classList.contains(currentLetter)) {
 				letterBoxes[i].classList.remove('hide');
 				letterBoxes[i].classList.add('show');
 				letterBoxes[i].textContent = currentLetter;
+				shownLetters += 1;
 			}
 		}
 	}

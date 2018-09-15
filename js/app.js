@@ -16,6 +16,8 @@
 		"isnt this fun",
 	]
 	let phraseLetters = [];
+	const lives = document.querySelectorAll('.tries img');
+	let shownLetters = 0;
 	const game = new Game(0, phraseArray);
 
 
@@ -25,13 +27,18 @@
 // ResetDisplay(): this function hides the start screen overlay
 	function resetDisplay(button) {
 		button.parentNode.style.display = 'none';
+		//document.querySelector('#phrase ul').removeChild('li');
 	}
 
 // MarkButton(): this function is called when a player selects a letter. It disables the button on the onscreen keyboard and calls the handleInteraction() method of the Game class.
 	function markButton(key) {
 		key.disabled = true;
-		key.className += ' chosen';
-		game.handleInteraction(key);
+		let handleInteraction = game.handleInteraction(key);
+		if (handleInteraction === false) {
+			key.setAttribute('class', 'key wrong');
+		} else {
+			key.setAttribute('class', 'key chosen');
+		}
 	}
 
 // Add an event listener to the "Start Game" button which calls the resetDisplay() function, creates a new Game object, and starts the game.
