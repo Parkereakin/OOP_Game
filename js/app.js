@@ -8,7 +8,7 @@
 		"how are you",
 		"you won",
 		"good guess",
-		"hi five",
+		"high five",
 		"phrase hunter",
 		"oop js",
 		"impressive",
